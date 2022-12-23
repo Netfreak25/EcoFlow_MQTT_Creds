@@ -1,0 +1,36 @@
+var cname, cvalue, Pfad, json, i, wert, objektid, value;
+
+function subsequenceFromStartFromEnd(sequence, at1, at2) {
+  var start = at1;
+  var end = sequence.length - 1 - at2 + 1;
+  return sequence.slice(start, end);
+}
+
+// Beschreibe diese Funktion …
+async function write(cname, cvalue) {
+    
+        var objectName = cname;
+        var MyString = cvalue;
+        
+        if ( !existsState(objectName )) {
+        createState(objectName,MyString,{name: " ",  type: 'string', role: 'value'}, function () {}); 
+        } else {
+        setState(objectName,"" + MyString);
+        }
+}
+
+
+Pfad = '0_userdata.0.EcoFlow.MQTT.SERIALNUMBER.';
+on({id: [].concat(['mqtt.5.app.device.property.SERIALNUMBER']), change: "ne"}, async function (obj) {
+  var value = obj.state.val;
+  var oldValue = obj.oldState.val;
+  json = getState("mqtt.5.app.device.property.SERIALNUMBER").val;
+  var i_list = subsequenceFromStartFromEnd(JSON.stringify(jsonataExpression((function () { try {return JSON.parse(json);} catch(e) {return {};}})(),'$.params')), 1, 1).split(',');
+  for (var i_index in i_list) {
+    i = i_list[i_index];
+    wert = i.split(':');
+    objektid = subsequenceFromStartFromEnd(wert[0], 1, 1);
+    value = wert[1];
+    await write(String(Pfad) + String(objektid), value);
+  }
+});
