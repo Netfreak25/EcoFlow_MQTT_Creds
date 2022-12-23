@@ -48,4 +48,5 @@ echo
 echo "Subscribe to /app/device/property/YourSerialNumber"
 echo "Subscribing to # does not work at all"
 echo
+echo "UserID: "$userid
 echo "have fun"
